@@ -17,3 +17,5 @@ with open('outputs/teams.csv', mode='w') as team:
             team.get_country_flag(),
             team.get_team_logo()
         ])
+        print(team.get_players())
+
