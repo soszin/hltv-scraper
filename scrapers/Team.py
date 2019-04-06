@@ -2,9 +2,8 @@ from scrapers.Scraper import Scraper
 
 
 class Team(Scraper):
-    def __init__(self, teamid):
-        self.teamid = teamid
-        super().__init__()
+    def __init__(self, url):
+        super().__init__(url)
 
     def get_name(self):
         team_name_container = self.content.select_one(".profile-team-name")
@@ -32,9 +31,6 @@ class Team(Scraper):
         for player in players:
             urls.append(player.get('href'))
         return urls
-
-    def setUrl(self):
-        return "https://www.hltv.org/team/"+str(self.teamid)+"/astralis"
 
 
 
