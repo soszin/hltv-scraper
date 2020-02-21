@@ -1,5 +1,5 @@
 from scrapers.Scraper import Scraper
-
+import re
 
 class Team(Scraper):
     def __init__(self, url):
@@ -15,7 +15,12 @@ class Team(Scraper):
 
     def get_world_ranking(self):
         stats_container = self.content.select_one(".profile-team-stats-container")
-        return stats_container.div.a.get_text().strip()
+        word_ranking = stats_container.div.a
+
+        if word_ranking:
+            return stats_container.div.a.get_text().strip()
+        else:
+            return '#0'
 
     def get_country_flag(self):
         country_container = self.content.select_one(".team-country")
@@ -27,10 +32,12 @@ class Team(Scraper):
 
     def get_players(self):
         players = self.content.select(".bodyshot-team a")
-        urls = []
+        ids = []
         for player in players:
-            urls.append(player.get('href'))
-        return urls
+            url = player.get('href')
+            player_id = re.findall("\/player\/(.*)\/.*", url)
+            ids.append(int(player_id[0]))
+        return ids
 
 
 
